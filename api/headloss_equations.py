@@ -16,6 +16,14 @@ def darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity):
     return round((llc + dfc * length / diameter) * density * math.pow(velocity, 2) / 2, 2)
 
 
+def hagen_poiseuille_equation(reynold):
+    """Returns darcy friction coefficient for laminar flow.
+
+    :param reynold: reynold number [-]
+    """
+    return round(64 / reynold, 3)
+
+
 def reynolds_equation(velocity, diameter, viscosity):
     """Reynolds number equation.
 
