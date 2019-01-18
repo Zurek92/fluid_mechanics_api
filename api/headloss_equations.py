@@ -24,6 +24,15 @@ def hagen_poiseuille_equation(reynold):
     return round(64 / reynold, 3)
 
 
+def relative_roughness(roughness, diameter):
+    """Returns relative roughness.
+
+    :param roughness: roughness of pipe [mm] or [m] (but the same as diameter)
+    :param diameter: diameter of duct or pipe [mm] or [m]
+    """
+    return round(roughness / diameter, 8)
+
+
 def reynolds_equation(velocity, diameter, viscosity):
     """Reynolds number equation.
 

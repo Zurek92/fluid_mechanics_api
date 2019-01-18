@@ -5,6 +5,7 @@ import pytest
 
 from headloss_equations import darcy_weisbach_equation
 from headloss_equations import hagen_poiseuille_equation
+from headloss_equations import relative_roughness
 from headloss_equations import reynolds_equation
 
 
@@ -23,6 +24,22 @@ def test_darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity, 
 @pytest.mark.parametrize('reynold, expected_dfc', ((1, 64), (64, 1), (2099, 0.03)))
 def test_hagen_poiseuille_equation(reynold, expected_dfc):
     assert hagen_poiseuille_equation(reynold) == expected_dfc
+
+
+@pytest.mark.parametrize(
+    'roughness, diameter, expected_output',
+    (
+        # in mm values
+        (0.01, 100, 0.0001),
+        (0.015, 50, 0.0003),
+        (1, 100, 0.01),
+        # in m values
+        (0.001, 0.1, 0.01),
+        (0.005, 0.2, 0.025),
+    ),
+)
+def test_relative_roughness(roughness, diameter, expected_output):
+    assert relative_roughness(roughness, diameter) == expected_output
 
 
 @pytest.mark.parametrize(
