@@ -26,4 +26,4 @@ test-unittests:
 	. venv/bin/activate && \
 	export PYTHONPATH=$PYTHONPATH:api/ && \
 	python -m pytest api/ unittests/ -v -ra -s --cov --cov-report term-missing --pylama && \
-	rm -r ".coverage" ".pytest_cache" "api/__pycache__" "unittests/__pycache__"
+	rm -rf ".coverage" ".pytest_cache" && find api unittests -name "__pycache__" -exec rm -rf {} +
