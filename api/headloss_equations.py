@@ -14,3 +14,13 @@ def darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity):
     :param velocity: average velocity of fluid [m/s]
     """
     return round((llc + dfc * length / diameter) * density * math.pow(velocity, 2) / 2, 2)
+
+
+def reynolds_equation(velocity, diameter, viscosity):
+    """Reynolds number equation.
+
+    :param velocity: average velocity of fluid [m/s]
+    :param diameter: hydraulic diameter of duct or pipe [m]
+    :param viscosity: kinematic viscosity [s/m2]
+    """
+    return round(velocity * diameter / viscosity, 0)
