@@ -2,6 +2,34 @@
 import math
 
 
+def colebrook_equation(reynold, rel_roughness):
+    """Returns darcy friction coefficient (dfc) for turbulent flow.
+
+    :param reynold: reynold number [-]
+    :param rel_roughness: relative roughness [-]
+    """
+
+    def left_side(dfc):
+        return 1 / math.sqrt(dfc)
+
+    def right_side(dfc, reynold, rel_roughness):
+        return -2 * math.log10((2.51 / (reynold * math.sqrt(dfc)) + (rel_roughness / 3.71)))
+
+    dfc = 20
+    prev_dfc = 0
+    while True:
+        left_side_value = left_side(dfc)
+        right_side_value = right_side(dfc, reynold, rel_roughness)
+        diff = abs(dfc - prev_dfc) / 2
+        prev_dfc = dfc
+        if left_side_value - right_side_value < -0.001:
+            dfc -= diff
+        elif left_side_value - right_side_value > 0.001:
+            dfc += diff
+        else:
+            return round(dfc, 3)
+
+
 def darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity):
     """Headloss equation.
 

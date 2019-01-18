@@ -3,10 +3,26 @@ import math
 
 import pytest
 
+
+from headloss_equations import colebrook_equation
 from headloss_equations import darcy_weisbach_equation
 from headloss_equations import hagen_poiseuille_equation
 from headloss_equations import relative_roughness
 from headloss_equations import reynolds_equation
+
+
+@pytest.mark.parametrize(
+    'reynold, rel_roughness, expected_dfc',
+    (
+        (10000, 0.04, 0.067),
+        (10000, 0.005, 0.038),
+        (100000, 0.001, 0.022),
+        (10000000, 0.01, 0.038),
+        (10000000, 0.00001, 0.009),
+    ),
+)
+def test_colebrook_equation(reynold, rel_roughness, expected_dfc):
+    assert colebrook_equation(reynold, rel_roughness) == expected_dfc
 
 
 @pytest.mark.parametrize(
