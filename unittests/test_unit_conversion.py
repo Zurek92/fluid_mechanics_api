@@ -15,6 +15,7 @@ from unit_convertion import unit_convertion
         (1.2, 'cm', 'dm', 'lenght.csv', 0.12),
         (0.12, 'dm', 'm', 'lenght.csv', 0.012),
         (1, 'in', 'cm', 'lenght.csv', 2.54),
+        (1, 'atm', 'bar', 'pressure.csv', 1.01325),
     ),
 )
 def test_unit_convertion(value, unit_from, unit_to, data_type, expected_value):
