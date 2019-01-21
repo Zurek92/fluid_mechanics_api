@@ -1,0 +1,7 @@
+unit_name,unit,converter
+liter,l,1
+cubic millimeter,mm3,0.000001
+cubic centimeter,cm3,0.001
+cubic decimeter,dm3,1
+cubic meter,m3,1000
+gallon,gal,3.785411784

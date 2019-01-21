@@ -1,0 +1,11 @@
+unit_name,unit,converter
+millimeter,mm,0.001
+centimeter,cm,0.01
+decimeter,dm,0.1
+meter,m,1
+kilometer,km,1000
+foot,ft,0.3048
+inch,in,0.0254
+yard,yd,0.9144
+mile,mi,1609
+nautical mile,nmi,1852
