@@ -16,6 +16,9 @@ from unit_convertion import unit_convertion
         (0.12, 'dm', 'm', 'lenght.csv', 0.012),
         (1, 'in', 'cm', 'lenght.csv', 2.54),
         (1, 'atm', 'bar', 'pressure.csv', 1.01325),
+        (1, 'gal', 'l', 'volume.csv', 3.785411784),
+        (1, 'm3', 'dm3', 'volume.csv', 1000),
+        (1, 'gal', 'mm3', 'volume.csv', 3785411.784),
     ),
 )
 def test_unit_convertion(value, unit_from, unit_to, data_type, expected_value):
