@@ -19,6 +19,8 @@ from unit_convertion import unit_convertion
         (1, 'gal', 'l', 'volume.csv', 3.785411784),
         (1, 'm3', 'dm3', 'volume.csv', 1000),
         (1, 'gal', 'mm3', 'volume.csv', 3785411.784),
+        (1, 'h', 's', 'time.csv', 3600),
+        (1, 'm', 's', 'time.csv', 60),
     ),
 )
 def test_unit_convertion(value, unit_from, unit_to, data_type, expected_value):
