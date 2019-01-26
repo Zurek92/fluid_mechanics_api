@@ -15,7 +15,7 @@ def circular_pipe(diameter, unit):
     :param diameter: value of internal diameter
     :param unit: unit of diameter e.g.: [mm] or [m]
     """
-    converted_diameter = unit_convertion(diameter, unit, 'm', 'lenght.csv')
+    converted_diameter = unit_convertion(diameter, unit, 'm', 'lenght')
     return round(math.pow(converted_diameter, 2) * math.pi / 4, 10)
 
 
@@ -40,5 +40,5 @@ def rectangular_dict(width, height, unit):
     :param height: duct height (B - dimension)
     :param unit: unit od dimensions e.g.: [mm] or [m]
     """
-    conversion_value = math.pow(unit_convertion(1, unit, 'm', 'lenght.csv'), 2)
+    conversion_value = math.pow(unit_convertion(1, unit, 'm', 'lenght'), 2)
     return round(width * height * conversion_value, 10)

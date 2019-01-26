@@ -37,8 +37,8 @@ def test_darcy_friction_coefficient(reynolds, internal_dimension, roughness, exp
     'dfc, llc, length, diameter, density, velocity, expected_headloss',
     (
         (0.03, 0, 10, 0.1, 1000, 1, 1500),
-        (0.03, 25, 20, 0.1, 998.2, 2, 61888.4),
-        (0.015, 13.5, 97, 0.05, 971.83, 1.5, 46574.95),
+        (0.03, 25, 20, 0.1, 998.2, 2, 61888),
+        (0.015, 13.5, 97, 0.05, 971.83, 1.5, 46575),
     ),
 )
 def test_darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity, expected_headloss):

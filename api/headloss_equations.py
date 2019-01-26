@@ -54,7 +54,7 @@ def darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity):
     :param density: density of fluid [kg/m3]
     :param velocity: average velocity of fluid [m/s]
     """
-    return round((llc + dfc * length / diameter) * density * math.pow(velocity, 2) / 2, 2)
+    return int(round((llc + dfc * length / diameter) * density * math.pow(velocity, 2) / 2, 0))
 
 
 def hagen_poiseuille_equation(reynold):

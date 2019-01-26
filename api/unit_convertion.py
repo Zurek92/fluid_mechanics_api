@@ -19,7 +19,7 @@ def unit_convertion(value, unit_from, unit_to, data_type):
     :param unit_to: output unit with new value
     :param data_type: values are taken from csv_data/unit_convertion/<data_type>.csv
     """
-    with open(os.path.join(script_dir, rel_path, data_type), 'r') as csv_file:
+    with open(os.path.join(script_dir, rel_path, f'{data_type}.csv'), 'r') as csv_file:
         csv_lenghts = csv.DictReader(csv_file)
         required_matches = 0
         for row in csv_lenghts:
