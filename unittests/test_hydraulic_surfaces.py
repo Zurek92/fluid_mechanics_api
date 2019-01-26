@@ -2,6 +2,7 @@
 import pytest
 
 from hydraulic_surfaces import circular_pipe
+from hydraulic_surfaces import get_internal_diameter
 from hydraulic_surfaces import rectangular_dict
 
 
@@ -10,6 +11,13 @@ from hydraulic_surfaces import rectangular_dict
 )
 def test_circular_pipe(diameter, unit, expected_area):
     assert round(circular_pipe(diameter, unit), 6) == expected_area
+
+
+@pytest.mark.parametrize(
+    'nominal, material, expected_diameter', ((25, 'steel', 27.2), (150, 'steel', 155.4), (155, 'steel', None))
+)
+def test_get_internal_diameter(nominal, material, expected_diameter):
+    assert get_internal_diameter(nominal, material) == expected_diameter
 
 
 @pytest.mark.parametrize(
