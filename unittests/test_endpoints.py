@@ -59,6 +59,21 @@ def test_health_endpoint(app_fixture):
             },
             {'velocity': 0.48, 'velocity_unit': 'm/s', 'headloss': 4.883, 'headloss_unit': 'kPa'},
         ),
+        (
+            {
+                'fluid': 'water',
+                'temperature': 30,
+                'nominal_diameter': 25,
+                'material': 'steel',
+                'flow': 1,
+                'flow_unit': 'm3/h',
+                'length': 10,
+                'roughness': 1,
+                'local_loss_coefficient': 15,
+                'headloss_unit': 'kPa',
+            },
+            {'velocity': 0.48, 'velocity_unit': 'm/s', 'headloss': 4.335, 'headloss_unit': 'kPa'},
+        ),
     ),
 )
 def test_headloss_endpoint(app_fixture, req_json, expected_resp):
