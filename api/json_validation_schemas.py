@@ -32,5 +32,6 @@ headloss_all_pipes = {
         },
         **basic_properties,
     },
+    'required': ['fluid', 'temperature', 'material', 'flow', 'flow_unit'],
     **basic_schema,
 }
