@@ -52,3 +52,8 @@ def headloss():
             'headloss_unit': headloss_unit,
         }
     )
+
+
+@api.app_errorhandler(404)
+def not_found(e):
+    return jsonify({'status': 400, 'message': 'not found'}), 404

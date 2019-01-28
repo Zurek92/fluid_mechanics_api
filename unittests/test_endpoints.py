@@ -79,3 +79,8 @@ def test_health_endpoint(app_fixture):
 def test_headloss_endpoint(app_fixture, req_json, expected_resp):
     resp = app_fixture.post('/calculate/headloss', json=req_json)
     assert resp.get_json() == expected_resp
+
+def test_not_found(app_fixture):
+    resp = app_fixture.post('/not/existing/path')
+    assert resp.status_code == 404
+    assert resp.get_json() == {'status': 400, 'message': 'not found'}
