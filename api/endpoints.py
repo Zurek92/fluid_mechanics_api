@@ -3,8 +3,8 @@ from flask import Blueprint
 from flask import jsonify
 
 from decorators import check_pipe_parameters
+from decorators import get_fluid_parameters
 from decorators import json_validate
-from fluid_parameters import fluid_params
 from flow_equations import velocity_equation
 from headloss_equations import darcy_friction_coefficient
 from headloss_equations import darcy_weisbach_equation
@@ -28,11 +28,8 @@ def health():
 @api.route('/calculate/headloss', methods=['POST'])
 @json_validate(headloss_selected_pipe)
 @check_pipe_parameters
-def headloss(req, roughness, internal_dimension):
-    # fluid parameters
-    fluid = fluid_params(req['fluid'], req['temperature'])
-    density = fluid['density']
-    viscosity = fluid['kinematic_viscosity']
+@get_fluid_parameters
+def headloss(req, roughness, internal_dimension, density, viscosity):
     # pipe
     area = circular_pipe(internal_dimension, 'mm')
     length = req['length']
@@ -58,11 +55,8 @@ def headloss(req, roughness, internal_dimension):
 
 @api.route('/calculate/pipes', methods=['POST'])
 @json_validate(headloss_all_pipes)
-def selecting_optimum_pipe_size(req):
-    # fluid parameters
-    fluid = fluid_params(req['fluid'], req['temperature'])
-    density = fluid['density']
-    viscosity = fluid['kinematic_viscosity']
+@get_fluid_parameters
+def selecting_optimum_pipe_size(req, density, viscosity):
     # pipe
     roughness = req.get('roughness', 1.5)
     # every iteration
