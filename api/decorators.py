@@ -46,4 +46,5 @@ def get_fluid_parameters(func):
         density = fluid['density']
         viscosity = fluid['kinematic_viscosity']
         return func(*args, req=req, density=density, viscosity=viscosity, **kwargs)
+
     return wrapper

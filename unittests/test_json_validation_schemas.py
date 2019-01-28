@@ -40,6 +40,16 @@ def test_headloss_all_pipes(json_from_user):
         {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/hz'},
         # wrong roughness value
         {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h', 'roughness': 10},
+        # missing fluid parameter
+        {'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
+        # missing temperature parameter
+        {'fluid': 'water', 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
+        # missing material parameter
+        {'fluid': 'water', 'temperature': 20, 'flow': 10, 'flow_unit': 'm3/h'},
+        # missing flow parameter
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow_unit': 'm3/h'},
+        # missing flow_unit parameter
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10},
     ),
 )
 def test_headloss_all_pipes_failed(json_from_user):
@@ -306,6 +316,69 @@ def test_headloss_json_from_user(json_from_user):
             'flow_unit': 'm3/h',
             'length': 10,
             'headloss_unit': 'atm1',
+        },
+        # missing fluid parameter
+        {
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow': 10,
+            'flow_unit': 'm3/h',
+            'length': 10,
+        },
+        # missing temperature parameter
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow': 100,
+            'flow_unit': 'dm3/s',
+            'length': 100,
+        },
+        # missing nominal_diameter parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'material': 'steel',
+            'flow': 1000,
+            'flow_unit': 'dm3/s',
+            'length': 100000,
+        },
+        # missing material parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'flow': 1000,
+            'flow_unit': 'dm3/h',
+            'length': 1000,
+        },
+        # missing flow parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow_unit': 'm3/h',
+            'length': 10,
+        },
+        # missing flow_unit parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow': 10000,
+            'length': 10000,
+        },
+        # missing length parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow': 10,
+            'flow_unit': 'm3/h',
         },
     ),
 )
