@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 from flask import Blueprint
 from flask import jsonify
-from flask import request
 
+from decorators import check_pipe_parameters
+from decorators import json_validate
 from fluid_parameters import fluid_params
 from flow_equations import velocity_equation
 from headloss_equations import darcy_friction_coefficient
 from headloss_equations import darcy_weisbach_equation
 from headloss_equations import reynolds_equation
 from hydraulic_surfaces import circular_pipe
-from hydraulic_surfaces import get_internal_diameter
+from json_validation_schemas import headloss_json_from_user
 from unit_convertion import unit_convertion
 
 
@@ -23,16 +24,15 @@ def health():
 
 
 @api.route('/calculate/headloss', methods=['POST'])
-def headloss():
-    req = request.get_json()
+@json_validate(headloss_json_from_user)
+@check_pipe_parameters
+def headloss(req, roughness, internal_dimension):
     # fluid parameters
     fluid = fluid_params(req['fluid'], req['temperature'])
     density = fluid['density']
     viscosity = fluid['kinematic_viscosity']
     # pipe
-    internal_dimension = get_internal_diameter(req['nominal_diameter'], req['material'])
     area = circular_pipe(internal_dimension, 'mm')
-    roughness = req.get('roughness', 1.5)
     length = req['length']
     llc = req.get('local_loss_coefficient', 0)
     # flow
