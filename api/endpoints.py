@@ -56,4 +56,4 @@ def headloss(req, roughness, internal_dimension):
 
 @api.app_errorhandler(404)
 def not_found(e):
-    return jsonify({'status': 400, 'message': 'not found'}), 404
+    return jsonify({'status': 404, 'message': 'not found'}), 404

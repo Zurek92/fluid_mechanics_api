@@ -132,4 +132,4 @@ def test_headloss_endpoint_failed(app_fixture, req_json, message):
 def test_not_found(app_fixture):
     resp = app_fixture.post('/not/existing/path')
     assert resp.status_code == 404
-    assert resp.get_json() == {'status': 400, 'message': 'not found'}
+    assert resp.get_json() == {'status': 404, 'message': 'not found'}
