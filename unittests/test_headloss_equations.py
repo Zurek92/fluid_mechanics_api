@@ -5,6 +5,7 @@ import pytest
 
 
 from headloss_equations import colebrook_equation
+from headloss_equations import darcy_friction_coefficient
 from headloss_equations import darcy_weisbach_equation
 from headloss_equations import hagen_poiseuille_equation
 from headloss_equations import relative_roughness
@@ -26,11 +27,18 @@ def test_colebrook_equation(reynold, rel_roughness, expected_dfc):
 
 
 @pytest.mark.parametrize(
+    'reynolds, internal_dimension, roughness, expected_dfc', ((2000, 100, 1.5, 0.032), (20000, 100, 1.5, 0.046))
+)
+def test_darcy_friction_coefficient(reynolds, internal_dimension, roughness, expected_dfc):
+    assert darcy_friction_coefficient(reynolds, internal_dimension, roughness) == expected_dfc
+
+
+@pytest.mark.parametrize(
     'dfc, llc, length, diameter, density, velocity, expected_headloss',
     (
         (0.03, 0, 10, 0.1, 1000, 1, 1500),
-        (0.03, 25, 20, 0.1, 998.2, 2, 61888.4),
-        (0.015, 13.5, 97, 0.05, 971.83, 1.5, 46574.95),
+        (0.03, 25, 20, 0.1, 998.2, 2, 61888),
+        (0.015, 13.5, 97, 0.05, 971.83, 1.5, 46575),
     ),
 )
 def test_darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity, expected_headloss):

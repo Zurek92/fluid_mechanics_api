@@ -30,6 +30,19 @@ def colebrook_equation(reynold, rel_roughness):
             return round(dfc, 3)
 
 
+def darcy_friction_coefficient(reynolds, internal_dimension, roughness):
+    """Returns dfc depends on flow laminar or turbulent.
+
+    :param reynolds: reynolds number
+    :param internal_dimension: internal dimension of pipe
+    :param roughness: roughness of pipe
+    """
+    if reynolds > 2100:
+        rel_roughness = relative_roughness(roughness, internal_dimension)
+        return colebrook_equation(reynolds, rel_roughness)
+    return hagen_poiseuille_equation(reynolds)
+
+
 def darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity):
     """Headloss equation.
 
@@ -41,7 +54,7 @@ def darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity):
     :param density: density of fluid [kg/m3]
     :param velocity: average velocity of fluid [m/s]
     """
-    return round((llc + dfc * length / diameter) * density * math.pow(velocity, 2) / 2, 2)
+    return int(round((llc + dfc * length / diameter) * density * math.pow(velocity, 2) / 2, 0))
 
 
 def hagen_poiseuille_equation(reynold):
