@@ -33,6 +33,17 @@ def get_internal_diameter(nominal, material):
                 return float(row['internal'])
 
 
+def get_internal_diameters(material):
+    """Get internal dimension (diameter) of all pipes.
+
+    :param material: material of pipe in csv_data/pipes/
+    """
+    with open(os.path.join(script_dir, rel_path, f'{material}.csv')) as csv_file:
+        data = csv.DictReader(csv_file)
+        for row in data:
+            yield int(row['DN']), float(row['internal'])
+
+
 def rectangular_dict(width, height, unit):
     """Rectangular area in [m2].
 

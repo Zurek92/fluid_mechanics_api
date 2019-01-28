@@ -2,7 +2,59 @@
 import jsonschema
 import pytest
 
-from json_validation_schemas import headloss_json_from_user
+from json_validation_schemas import headloss_all_pipes
+from json_validation_schemas import headloss_selected_pipe
+
+
+@pytest.mark.parametrize(
+    'json_from_user',
+    (
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
+        {'fluid': 'water', 'temperature': 30, 'material': 'steel', 'roughness': 1, 'flow': 10, 'flow_unit': 'm3/h'},
+    ),
+)
+def test_headloss_all_pipes(json_from_user):
+    jsonschema.validate(json_from_user, headloss_all_pipes)
+
+
+@pytest.mark.parametrize(
+    'json_from_user',
+    (
+        # wrong fluid name
+        {'fluid': 'water123', 'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
+        # wrong fluid type
+        {'fluid': 12, 'temperature': 30, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
+        # wrong temperature value
+        {'fluid': 'water', 'temperature': -20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
+        # wrong temperature type
+        {'fluid': 'water', 'temperature': 'nnn', 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
+        # wrong material name
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel11', 'flow': 10, 'flow_unit': 'm3/h'},
+        # wrong material type
+        {'fluid': 'water', 'temperature': 20, 'material': 12, 'flow': 10, 'flow_unit': 'm3/h'},
+        # wrong flow type
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 'zzz', 'flow_unit': 'm3/h'},
+        # wrong flow_unit type
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 12},
+        # wrong flow_unit value
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/hz'},
+        # wrong roughness value
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h', 'roughness': 10},
+        # missing fluid parameter
+        {'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
+        # missing temperature parameter
+        {'fluid': 'water', 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
+        # missing material parameter
+        {'fluid': 'water', 'temperature': 20, 'flow': 10, 'flow_unit': 'm3/h'},
+        # missing flow parameter
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow_unit': 'm3/h'},
+        # missing flow_unit parameter
+        {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10},
+    ),
+)
+def test_headloss_all_pipes_failed(json_from_user):
+    with pytest.raises(jsonschema.exceptions.ValidationError):
+        jsonschema.validate(json_from_user, headloss_all_pipes)
 
 
 @pytest.mark.parametrize(
@@ -53,7 +105,7 @@ from json_validation_schemas import headloss_json_from_user
     ),
 )
 def test_headloss_json_from_user(json_from_user):
-    jsonschema.validate(json_from_user, headloss_json_from_user)
+    jsonschema.validate(json_from_user, headloss_selected_pipe)
 
 
 @pytest.mark.parametrize(
@@ -265,8 +317,71 @@ def test_headloss_json_from_user(json_from_user):
             'length': 10,
             'headloss_unit': 'atm1',
         },
+        # missing fluid parameter
+        {
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow': 10,
+            'flow_unit': 'm3/h',
+            'length': 10,
+        },
+        # missing temperature parameter
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow': 100,
+            'flow_unit': 'dm3/s',
+            'length': 100,
+        },
+        # missing nominal_diameter parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'material': 'steel',
+            'flow': 1000,
+            'flow_unit': 'dm3/s',
+            'length': 100000,
+        },
+        # missing material parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'flow': 1000,
+            'flow_unit': 'dm3/h',
+            'length': 1000,
+        },
+        # missing flow parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow_unit': 'm3/h',
+            'length': 10,
+        },
+        # missing flow_unit parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow': 10000,
+            'length': 10000,
+        },
+        # missing length parameter
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow': 10,
+            'flow_unit': 'm3/h',
+        },
     ),
 )
 def test_headloss_json_from_user_failed(json_from_user):
     with pytest.raises(jsonschema.exceptions.ValidationError):
-        jsonschema.validate(json_from_user, headloss_json_from_user)
+        jsonschema.validate(json_from_user, headloss_selected_pipe)
