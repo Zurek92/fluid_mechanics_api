@@ -53,3 +53,32 @@ def rectangular_dict(width, height, unit):
     """
     conversion_value = math.pow(unit_convertion(1, unit, 'm', 'lenght'), 2)
     return round(width * height * conversion_value, 10)
+
+
+def angle_in_partial_filled_pipe(diameter, height):
+    """Returns half of angle in partial filled circle pipe (in radians).
+
+    Required to calculate area of cross sectional area of water and wetted perimeter.
+    :param diameter: diameter of pipe [mm] or [m] but the same as height
+    :param height: height of water in pipe
+    """
+    return math.acos(1 - (2 * height / diameter))
+
+
+def circular_water_cross_sectional_area(angle, diameter, height):
+    """Returns circle wetted perimeter.
+
+    :param angle: angle in radians from angle_in_partial_filled_pipe function
+    :param diameter: diameter of pipe [m]
+    :param height: height of water in pipe
+    """
+    return (angle * math.pow(diameter, 2) - (diameter - 2 * height) * (diameter * math.sin(angle))) / 4
+
+
+def circular_wetted_perimeter(angle, diameter):
+    """Returns circle wetted perimeter.
+
+    :param angle: angle in radians from angle_in_partial_filled_pipe function
+    :param diameter: diameter of pipe [m]
+    """
+    return angle * diameter
