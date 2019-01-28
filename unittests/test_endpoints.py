@@ -129,6 +129,71 @@ def test_headloss_endpoint_failed(app_fixture, req_json, message):
     assert resp.get_json() == {'status': 400, 'message': message}
 
 
+@pytest.mark.parametrize(
+    'req_json, expected_resp',
+    (
+        (
+            {
+                'fluid': 'water',
+                'temperature': 20,
+                'material': 'steel',
+                'roughness': 1.5,
+                'flow': 10,
+                'flow_unit': 'm3/h',
+            },
+            {
+                'headloss_unit': 'Pa/m',
+                'velocity_unit': 'm/s',
+                'results': [
+                    {'nominal_diameter': 8, 'headloss': 16561320, 'velocity': 45.67},
+                    {'nominal_diameter': 10, 'headloss': 2312644, 'velocity': 22.64},
+                    {'nominal_diameter': 15, 'headloss': 583861, 'velocity': 13.82},
+                    {'nominal_diameter': 20, 'headloss': 111520, 'velocity': 7.58},
+                    {'nominal_diameter': 25, 'headloss': 31444, 'velocity': 4.78},
+                    {'nominal_diameter': 32, 'headloss': 6889, 'velocity': 2.74},
+                    {'nominal_diameter': 40, 'headloss': 3021, 'velocity': 2.02},
+                    {'nominal_diameter': 50, 'headloss': 837, 'velocity': 1.26},
+                    {'nominal_diameter': 65, 'headloss': 204, 'velocity': 0.75},
+                    {'nominal_diameter': 80, 'headloss': 85, 'velocity': 0.54},
+                    {'nominal_diameter': 100, 'headloss': 21, 'velocity': 0.32},
+                    {'nominal_diameter': 125, 'headloss': 7, 'velocity': 0.21},
+                    {'nominal_diameter': 150, 'headloss': 3, 'velocity': 0.15},
+                ],
+            },
+        ),
+    ),
+)
+def test_selecting_optimum_pipe_size(app_fixture, req_json, expected_resp):
+    resp = app_fixture.post('/calculate/pipes', json=req_json)
+    assert resp.get_json() == expected_resp
+
+
+@pytest.mark.parametrize(
+    'req_json',
+    (
+        {
+            'fluid': 'water',
+            'temperature': 20.55,
+            'material': 'steel',
+            'roughness': 1.5,
+            'flow': 10,
+            'flow_unit': 'm3/h',
+        },
+        {
+            'fluid': 'water2222',
+            'temperature': 20.5,
+            'material': 'steel',
+            'roughness': 1.5,
+            'flow': 10,
+            'flow_unit': 'm3/h',
+        },
+    ),
+)
+def test_selecting_optimum_pipe_size_failed(app_fixture, req_json):
+    resp = app_fixture.post('/calculate/pipes', json=req_json)
+    assert resp.get_json() == {'status': 400, 'message': 'Missing or invalid JSON request.'}
+
+
 def test_not_found(app_fixture):
     resp = app_fixture.post('/not/existing/path')
     assert resp.status_code == 404
