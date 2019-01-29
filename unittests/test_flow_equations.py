@@ -5,12 +5,10 @@ from flow_equations import manning_equation
 from flow_equations import velocity_equation
 
 
-@pytest.mark.parametrize('hydraulic_radius, manning_coefficient, slope, expected_velocity', (
-    (1, 0.013, 0.01, 7.69),
-    (0.5, 0.013, 0.01, 4.85),
-    (0.5, 0.013, 0.005, 3.43),
-    (0.025, 0.013, 0.05, 1.47),
-))
+@pytest.mark.parametrize(
+    'hydraulic_radius, manning_coefficient, slope, expected_velocity',
+    ((1, 0.013, 0.01, 7.69), (0.5, 0.013, 0.01, 4.85), (0.5, 0.013, 0.005, 3.43), (0.025, 0.013, 0.05, 1.47)),
+)
 def test_manning_equation(hydraulic_radius, manning_coefficient, slope, expected_velocity):
     assert manning_equation(hydraulic_radius, manning_coefficient, slope) == expected_velocity
 

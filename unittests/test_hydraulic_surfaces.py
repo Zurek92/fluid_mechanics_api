@@ -46,9 +46,7 @@ def test_get_internal_diameter(nominal, material, expected_diameter):
     assert get_internal_diameter(nominal, material) == expected_diameter
 
 
-@pytest.mark.parametrize('area, perimeter, expected_radius', (
-    (2, 1, 2), (3, 2, 1.5)
-))
+@pytest.mark.parametrize('area, perimeter, expected_radius', ((2, 1, 2), (3, 2, 1.5)))
 def test_hydraulic_radius(area, perimeter, expected_radius):
     assert hydraulic_radius(area, perimeter) == expected_radius
 
