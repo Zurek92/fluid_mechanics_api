@@ -82,3 +82,12 @@ def circular_wetted_perimeter(angle, diameter):
     :param diameter: diameter of pipe [m]
     """
     return angle * diameter
+
+
+def hydraulic_radius(area, perimeter):
+    """Hydraulic radius [m].
+
+    :param area: cross sectional area [m2]
+    :param perimeter: wetted perimeter [m]
+    """
+    return area / perimeter

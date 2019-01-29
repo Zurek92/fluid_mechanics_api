@@ -8,6 +8,7 @@ from hydraulic_surfaces import circular_pipe
 from hydraulic_surfaces import circular_water_cross_sectional_area
 from hydraulic_surfaces import circular_wetted_perimeter
 from hydraulic_surfaces import get_internal_diameter
+from hydraulic_surfaces import hydraulic_radius
 from hydraulic_surfaces import rectangular_dict
 
 
@@ -43,6 +44,13 @@ def test_circular_pipe(diameter, unit, expected_area):
 )
 def test_get_internal_diameter(nominal, material, expected_diameter):
     assert get_internal_diameter(nominal, material) == expected_diameter
+
+
+@pytest.mark.parametrize('area, perimeter, expected_radius', (
+    (2, 1, 2), (3, 2, 1.5)
+))
+def test_hydraulic_radius(area, perimeter, expected_radius):
+    assert hydraulic_radius(area, perimeter) == expected_radius
 
 
 @pytest.mark.parametrize(
