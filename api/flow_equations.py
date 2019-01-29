@@ -11,7 +11,7 @@ def manning_equation(hydraulic_radius, manning_coefficient, slope):
     :param manning_coefficient: Gauckler–Manning coefficient
     :param slope: slope of the hydraulic grade line [-]
     """
-    return round(math.pow(hydraulic_radius, 2 / 3) * math.pow(slope, 0.5) / manning_coefficient, 2)
+    return math.pow(hydraulic_radius, 2 / 3) * math.pow(slope, 0.5) / manning_coefficient
 
 
 def velocity_equation(flow, flow_unit, area):
