@@ -13,6 +13,7 @@ from hydraulic_surfaces import circular_pipe
 from hydraulic_surfaces import get_internal_diameters
 from json_validation_schemas import headloss_all_pipes
 from json_validation_schemas import headloss_selected_pipe
+from json_validation_schemas import manning_schema
 from unit_convertion import unit_convertion
 
 
@@ -83,6 +84,12 @@ def selecting_optimum_pipe_size(req, density, viscosity):
         )
         results.append({'nominal_diameter': nominal_diameter, 'headloss': loss, 'velocity': velocity})
     return jsonify({'headloss_unit': 'Pa/m', 'velocity_unit': 'm/s', 'results': results})
+
+
+@api.route('/calculate/gravity_flow', methods=['POST'])
+@json_validate(manning_schema)
+def gravity_flow(req):
+    return jsonify({})
 
 
 @api.app_errorhandler(404)
