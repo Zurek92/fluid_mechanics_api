@@ -96,6 +96,10 @@ def selecting_optimum_pipe_size(req, density, viscosity):
 @api.route('/calculate/gravity_flow', methods=['POST'])
 @json_validate(manning_schema)
 def gravity_flow(req):
+    """Calculate gravity flow and velocity.
+
+    :param req: request.get_json() flask's method to get json from user
+    """
     height = req['height']
     if 'diameter' in req:
         diameter = req['diameter']

@@ -119,6 +119,43 @@
     }
     ```
 
+* POST **/calculate/gravity_flow** <br>
+    Calculate gravity flow and velocity with manning equation, json structure required:
+
+    ```json
+    {
+        "width": "float",
+        "diameter": "float",
+        "height": "float",
+        "slope": "float",
+        "manning_coefficient": "float"
+    }
+    ```
+    * width: width of rectangular channel (only one width or diameter is required - XOR)
+    * diameter: diameter of circular pipe (only one width or diameter is required - XOR)
+    * height: height of water in open channel or pipe
+    * slope: slope of the hydraulic grade line [-]
+    * manning_coefficient: Gauckler–Manning coefficient
+
+    Example request json:
+    ```json
+    {
+        "diameter": 0.1,
+        "height": 0.1,
+        "slope": 0.05,
+        "manning_coefficient": 0.013
+    }
+    ```
+    Example response json:
+    ```json
+    {
+        "velocity": 1.47,
+        "velocity_unit": "m/s",
+        "flow": 41.58,
+        "flow_unit": "m3/h"
+    }
+    ```
+
 ### Available fluids:
 1. water
 
