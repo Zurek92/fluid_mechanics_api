@@ -84,6 +84,15 @@ def circular_wetted_perimeter(angle, diameter):
     return angle * diameter
 
 
+def rectangular_wetted_perimeter(width, height):
+    """Returns rectangular wetted perimeter in open channel.
+
+    :param width: width of rectangular channel
+    :param height: height of water in open channel
+    """
+    return width + 2 * height
+
+
 def hydraulic_radius(area, perimeter):
     """Hydraulic radius [m].
 

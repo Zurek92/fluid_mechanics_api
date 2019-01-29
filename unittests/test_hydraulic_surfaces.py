@@ -10,6 +10,7 @@ from hydraulic_surfaces import circular_wetted_perimeter
 from hydraulic_surfaces import get_internal_diameter
 from hydraulic_surfaces import hydraulic_radius
 from hydraulic_surfaces import rectangular_dict
+from hydraulic_surfaces import rectangular_wetted_perimeter
 
 
 @pytest.mark.parametrize(
@@ -56,3 +57,8 @@ def test_hydraulic_radius(area, perimeter, expected_radius):
 )
 def test_rectangular_dict(width, height, unit, expected_area):
     assert rectangular_dict(width, height, unit) == expected_area
+
+
+@pytest.mark.parametrize('width, height, expected_perimeter', ((1, 1, 3), (2, 1, 4), (0.5, 1, 2.5)))
+def test_rectangular_wetted_perimeter(width, height, expected_perimeter):
+    assert rectangular_wetted_perimeter(width, height) == expected_perimeter
