@@ -35,3 +35,16 @@ headloss_all_pipes = {
     'required': ['fluid', 'temperature', 'material', 'flow', 'flow_unit'],
     **basic_schema,
 }
+
+manning_schema = {
+    'properties': {
+        'width': {'type': 'number', 'minimum': 0, 'exclusiveMinimum': True},
+        'diameter': {'type': 'number', 'minimum': 0, 'exclusiveMinimum': True},
+        'height': {'type': 'number', 'minimum': 0},
+        'slope': {'type': 'number', 'minimum': 0},
+        'manning_coefficient': {'type': 'number', 'minimum': 0, 'exclusiveMinimum': True},
+    },
+    'required': ['height', 'slope', 'manning_coefficient'],
+    'oneOf': [{'required': ['width']}, {'required': ['diameter']}],
+    **basic_schema,
+}

@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
+import math
+
 from unit_convertion import unit_convertion
+
+
+def manning_equation(hydraulic_radius, manning_coefficient, slope):
+    """Manning formula estimating the average velocity of a liquid driven by gravity.
+
+    :param hydraulic_radius: hydraulic radius of pipe or channel [m]
+    :param manning_coefficient: Gauckler–Manning coefficient
+    :param slope: slope of the hydraulic grade line [-]
+    """
+    return math.pow(hydraulic_radius, 2 / 3) * math.pow(slope, 0.5) / manning_coefficient
 
 
 def velocity_equation(flow, flow_unit, area):

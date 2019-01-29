@@ -5,14 +5,22 @@ from flask import jsonify
 from decorators import check_pipe_parameters
 from decorators import get_fluid_parameters
 from decorators import json_validate
+from flow_equations import manning_equation
 from flow_equations import velocity_equation
 from headloss_equations import darcy_friction_coefficient
 from headloss_equations import darcy_weisbach_equation
 from headloss_equations import reynolds_equation
+from hydraulic_surfaces import angle_in_partial_filled_pipe
 from hydraulic_surfaces import circular_pipe
+from hydraulic_surfaces import circular_water_cross_sectional_area
+from hydraulic_surfaces import circular_wetted_perimeter
 from hydraulic_surfaces import get_internal_diameters
+from hydraulic_surfaces import hydraulic_radius
+from hydraulic_surfaces import rectangular_dict
+from hydraulic_surfaces import rectangular_wetted_perimeter
 from json_validation_schemas import headloss_all_pipes
 from json_validation_schemas import headloss_selected_pipe
+from json_validation_schemas import manning_schema
 from unit_convertion import unit_convertion
 
 
@@ -83,6 +91,37 @@ def selecting_optimum_pipe_size(req, density, viscosity):
         )
         results.append({'nominal_diameter': nominal_diameter, 'headloss': loss, 'velocity': velocity})
     return jsonify({'headloss_unit': 'Pa/m', 'velocity_unit': 'm/s', 'results': results})
+
+
+@api.route('/calculate/gravity_flow', methods=['POST'])
+@json_validate(manning_schema)
+def gravity_flow(req):
+    """Calculate gravity flow and velocity.
+
+    :param req: request.get_json() flask's method to get json from user
+    """
+    height = req['height']
+    if 'diameter' in req:
+        diameter = req['diameter']
+        if height > diameter:
+            return jsonify({'status': 400, 'message': 'Missing or invalid JSON request.'})
+        angle = angle_in_partial_filled_pipe(diameter, height)
+        area = circular_water_cross_sectional_area(angle, diameter, height)
+        perimeter = circular_wetted_perimeter(angle, diameter)
+    else:
+        width = req['width']
+        area = rectangular_dict(width, height, 'm')
+        perimeter = rectangular_wetted_perimeter(width, height)
+    hydraulic_radius_value = hydraulic_radius(area, perimeter)
+    velocity = manning_equation(hydraulic_radius_value, req['manning_coefficient'], req['slope'])
+    return jsonify(
+        {
+            'velocity': round(velocity, 2),
+            'velocity_unit': 'm/s',
+            'flow': round(velocity * area * 3600, 2),
+            'flow_unit': 'm3/h',
+        }
+    )
 
 
 @api.app_errorhandler(404)

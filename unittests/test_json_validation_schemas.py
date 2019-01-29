@@ -4,6 +4,7 @@ import pytest
 
 from json_validation_schemas import headloss_all_pipes
 from json_validation_schemas import headloss_selected_pipe
+from json_validation_schemas import manning_schema
 
 
 @pytest.mark.parametrize(
@@ -385,3 +386,55 @@ def test_headloss_json_from_user(json_from_user):
 def test_headloss_json_from_user_failed(json_from_user):
     with pytest.raises(jsonschema.exceptions.ValidationError):
         jsonschema.validate(json_from_user, headloss_selected_pipe)
+
+
+@pytest.mark.parametrize(
+    'json_from_user',
+    (
+        {'width': 1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        {'diameter': 1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+    ),
+)
+def test_manning_schema(json_from_user):
+    jsonschema.validate(json_from_user, manning_schema)
+
+
+@pytest.mark.parametrize(
+    'json_from_user',
+    (
+        # width and diameter in one json
+        {'width': 1, 'diameter': 1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        # wrong diameter/width type
+        {'diameter': 'z', 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        {'width': 'z', 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        # wrong diameter/width value
+        {'diameter': -1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        {'width': -1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        {'diameter': 0, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        {'width': 0, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        # wrong height type
+        {'diameter': 1, 'height': 'z', 'slope': 0.01, 'manning_coefficient': 0.013},
+        # wrong height value
+        {'diameter': 1, 'height': -1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        # wrong slope type
+        {'diameter': 1, 'height': 1, 'slope': 'z', 'manning_coefficient': 0.013},
+        # wrong slope value
+        {'diameter': 1, 'height': 1, 'slope': -0.01, 'manning_coefficient': 0.013},
+        # wrong coefficient type
+        {'diameter': 1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 'z'},
+        # wrong coefficient value
+        {'diameter': 1, 'height': 1, 'slope': 0.01, 'manning_coefficient': -0.013},
+        {'diameter': 1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0},
+        # missing width and diameter
+        {'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        # missing height
+        {'diameter': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        # missing slope
+        {'diameter': 1, 'height': 1, 'manning_coefficient': 0.013},
+        # missing coefficient
+        {'diameter': 1, 'height': 1, 'slope': 0.01},
+    ),
+)
+def test_manning_schema_failed(json_from_user):
+    with pytest.raises(jsonschema.exceptions.ValidationError):
+        jsonschema.validate(json_from_user, manning_schema)

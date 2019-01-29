@@ -194,6 +194,38 @@ def test_selecting_optimum_pipe_size_failed(app_fixture, req_json):
     assert resp.get_json() == {'status': 400, 'message': 'Missing or invalid JSON request.'}
 
 
+@pytest.mark.parametrize(
+    'req_json, expected_resp',
+    (
+        (
+            {'width': 1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+            {'velocity': 3.7, 'velocity_unit': 'm/s', 'flow': 13313.07, 'flow_unit': 'm3/h'},
+        ),
+        (
+            {'diameter': 0.1, 'height': 0.1, 'slope': 0.05, 'manning_coefficient': 0.013},
+            {'velocity': 1.47, 'velocity_unit': 'm/s', 'flow': 41.58, 'flow_unit': 'm3/h'},
+        ),
+    ),
+)
+def test_gravity_flow(app_fixture, req_json, expected_resp):
+    resp = app_fixture.post('/calculate/gravity_flow', json=req_json)
+    assert resp.get_json() == expected_resp
+
+
+@pytest.mark.parametrize(
+    'req_json',
+    (
+        # both width and height
+        {'width': 1, 'diameter': 0.1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+        # height > diameter
+        {'diameter': 0.1, 'height': 1, 'slope': 0.01, 'manning_coefficient': 0.013},
+    ),
+)
+def test_gravity_flow_failed(app_fixture, req_json):
+    resp = app_fixture.post('/calculate/gravity_flow', json=req_json)
+    assert resp.get_json() == {'status': 400, 'message': 'Missing or invalid JSON request.'}
+
+
 def test_not_found(app_fixture):
     resp = app_fixture.post('/not/existing/path')
     assert resp.status_code == 404
