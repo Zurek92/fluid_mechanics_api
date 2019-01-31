@@ -12,6 +12,14 @@ from json_validation_schemas import manning_schema
     (
         {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10, 'flow_unit': 'm3/h'},
         {'fluid': 'water', 'temperature': 30, 'material': 'steel', 'roughness': 1, 'flow': 10, 'flow_unit': 'm3/h'},
+        {
+            'fluid': 'water',
+            'temperature_supply': 60,
+            'temperature_return': 40,
+            'material': 'steel',
+            'power': 10,
+            'power_unit': 'kW',
+        },
     ),
 )
 def test_headloss_all_pipes(json_from_user):
@@ -51,6 +59,75 @@ def test_headloss_all_pipes(json_from_user):
         {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow_unit': 'm3/h'},
         # missing flow_unit parameter
         {'fluid': 'water', 'temperature': 20, 'material': 'steel', 'flow': 10},
+        # missing temperature_supply
+        {'fluid': 'water', 'material': 'steel', 'power': 10, 'power_unit': 'W', 'temperature_return': 50},
+        # missing temperature_return
+        {'fluid': 'water', 'material': 'steel', 'power': 10, 'power_unit': 'W', 'temperature_supply': 50},
+        # missing power_unit
+        {'fluid': 'water', 'material': 'steel', 'power': 10, 'temperature_return': 50, 'temperature_supply': 60},
+        # wrong temperature_supply type
+        {
+            'fluid': 'water',
+            'temperature_supply': 'zzz',
+            'temperature_return': 40,
+            'material': 'steel',
+            'power': 10,
+            'power_unit': 'kW',
+        },
+        # wrong temperature_supply value
+        {
+            'fluid': 'water',
+            'temperature_supply': -40,
+            'temperature_return': 40,
+            'material': 'steel',
+            'power': 10,
+            'power_unit': 'kW',
+        },
+        # wrong temperature_return type
+        {
+            'fluid': 'water',
+            'temperature_supply': 40,
+            'temperature_return': 'zz',
+            'material': 'steel',
+            'power': 10,
+            'power_unit': 'kW',
+        },
+        # wrong temperature_return value
+        {
+            'fluid': 'water',
+            'temperature_supply': 40,
+            'temperature_return': -40,
+            'material': 'steel',
+            'power': 10,
+            'power_unit': 'kW',
+        },
+        # wrong power type
+        {
+            'fluid': 'water',
+            'temperature_supply': 60,
+            'temperature_return': 40,
+            'material': 'steel',
+            'power': 'zz',
+            'power_unit': 'kW',
+        },
+        # wrong power value
+        {
+            'fluid': 'water',
+            'temperature_supply': 60,
+            'temperature_return': 40,
+            'material': 'steel',
+            'power': 0,
+            'power_unit': 'kW',
+        },
+        # wrong power_unit value
+        {
+            'fluid': 'water',
+            'temperature_supply': 60,
+            'temperature_return': 40,
+            'material': 'steel',
+            'power': 0,
+            'power_unit': 'kWa',
+        },
     ),
 )
 def test_headloss_all_pipes_failed(json_from_user):
@@ -98,6 +175,19 @@ def test_headloss_all_pipes_failed(json_from_user):
             'material': 'steel',
             'flow': 10,
             'flow_unit': 'm3/h',
+            'length': 10,
+            'roughness': 1.5,
+            'local_loss_coefficient': 15,
+            'headloss_unit': 'kPa',
+        },
+        {
+            'fluid': 'water',
+            'temperature_supply': 70,
+            'temperature_return': 50,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'power': 10,
+            'power_unit': 'W',
             'length': 10,
             'roughness': 1.5,
             'local_loss_coefficient': 15,
@@ -380,6 +470,134 @@ def test_headloss_json_from_user(json_from_user):
             'material': 'steel',
             'flow': 10,
             'flow_unit': 'm3/h',
+        },
+        # missing power
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power_unit': 'kW',
+            'temperature_supply': 70,
+            'temperature_return': 50,
+        },
+        # wrong power type
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 'zz',
+            'power_unit': 'kW',
+            'temperature_supply': 70,
+            'temperature_return': 50,
+        },
+        # wrong power value
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 0,
+            'power_unit': 'kW',
+            'temperature_supply': 70,
+            'temperature_return': 50,
+        },
+        # missing power_unit
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 10,
+            'temperature_supply': 70,
+            'temperature_return': 50,
+        },
+        # wrong power_unit type
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 10,
+            'power_unit': 12,
+            'temperature_supply': 70,
+            'temperature_return': 50,
+        },
+        # wrong power_unit value
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 10,
+            'power_unit': 'kWs',
+            'temperature_supply': 70,
+            'temperature_return': 50,
+        },
+        # missing temperature_supply
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 10,
+            'power_unit': 'kW',
+            'temperature_return': 50,
+        },
+        # wrong temperature_supply type
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 10,
+            'power_unit': 'kW',
+            'temperature_supply': 'zz',
+            'temperature_return': 50,
+        },
+        # wrong temperature_supply value
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 10,
+            'power_unit': 'kW',
+            'temperature_supply': -40,
+            'temperature_return': 50,
+        },
+        # missing temperature_return
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 10,
+            'power_unit': 'kW',
+            'temperature_supply': 70,
+        },
+        # wrong temperature_return type
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 10,
+            'power_unit': 'kW',
+            'temperature_supply': 70,
+            'temperature_return': 'zz',
+        },
+        # wrong temperature_return value
+        {
+            'fluid': 'water',
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'length': 10,
+            'power': 10,
+            'power_unit': 'kW',
+            'temperature_supply': 70,
+            'temperature_return': -50,
         },
     ),
 )
