@@ -7,6 +7,7 @@ from flask import request
 from fluid_parameters import fluid_params
 from hydraulic_surfaces import get_internal_diameter
 from miscellaneous_tools import error_response
+from unit_convertion import unit_convertion
 
 
 def json_validate(schema):
@@ -42,9 +43,29 @@ def check_pipe_parameters(func):
 def get_fluid_parameters(func):
     @wraps(func)
     def wrapper(req, *args, **kwargs):
+        if 'power' in req:
+            req['temperature'] = (req['temperature_supply'] + req['temperature_return']) / 2
         fluid = fluid_params(req['fluid'], req['temperature'])
-        density = fluid['density']
-        viscosity = fluid['kinematic_viscosity']
-        return func(*args, req=req, density=density, viscosity=viscosity, **kwargs)
+        req.update(
+            {
+                'density': fluid['density'],
+                'specific_heat': fluid['specific_heat'],
+                'viscosity': fluid['kinematic_viscosity'],
+            }
+        )
+        return func(*args, req=req, **kwargs)
+
+    return wrapper
+
+
+def power_to_flow(func):
+    @wraps(func)
+    def wrapper(req, *args, **kwargs):
+        if 'power' in req:
+            power = unit_convertion(req['power'], req['power_unit'], 'W', 'power')
+            temperature_delta = abs(req['temperature_supply'] - req['temperature_return'])
+            flow = power / (temperature_delta * req['density'] * req['specific_heat'])
+            req.update({'flow': flow, 'flow_unit': 'm3/s'})
+        return func(*args, req=req, **kwargs)
 
     return wrapper

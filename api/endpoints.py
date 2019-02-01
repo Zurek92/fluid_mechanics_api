@@ -5,6 +5,7 @@ from flask import jsonify
 from decorators import check_pipe_parameters
 from decorators import get_fluid_parameters
 from decorators import json_validate
+from decorators import power_to_flow
 from flow_equations import manning_equation
 from flow_equations import velocity_equation
 from headloss_equations import darcy_friction_coefficient
@@ -37,15 +38,16 @@ def health():
 @json_validate(headloss_selected_pipe)
 @check_pipe_parameters
 @get_fluid_parameters
-def headloss(req, roughness, internal_dimension, density, viscosity):
+@power_to_flow
+def headloss(req, roughness, internal_dimension):
     """Calculate velocity and headloss for selected dimension.
 
     :param req: request.get_json() flask's method to get json from user
     :param roughness: roughness of pipe in [mm]
     :param internal_dimension: internal dimension of pipe depends on nominal diameter
-    :param density: density of fluid [kg/m3]
-    :param viscosity: viscosity of fluid [m2/s]
     """
+    density = req['density']
+    viscosity = req['viscosity']
     # pipe
     area = circular_pipe(internal_dimension, 'mm')
     length = req['length']
@@ -72,13 +74,14 @@ def headloss(req, roughness, internal_dimension, density, viscosity):
 @api.route('/calculate/pipes', methods=['POST'])
 @json_validate(headloss_all_pipes)
 @get_fluid_parameters
-def selecting_optimum_pipe_size(req, density, viscosity):
+@power_to_flow
+def selecting_optimum_pipe_size(req):
     """Calculate velocity and headloss for every dimension.
 
     :param req: request.get_json() flask's method to get json from user
-    :param density: density of fluid [kg/m3]
-    :param viscosity: viscosity of fluid [m2/s]
     """
+    density = req['density']
+    viscosity = req['viscosity']
     roughness = req.get('roughness', 1.5)
     results = []
     for nominal_diameter, internal_dimension in get_internal_diameters(req['material']):

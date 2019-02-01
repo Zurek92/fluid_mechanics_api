@@ -56,7 +56,7 @@ headloss_all_pipes = {
     },
     'required': ['fluid', 'material'],
     **basic_schema,
-    **power_and_flow_required_fields
+    **power_and_flow_required_fields,
 }
 
 manning_schema = {
