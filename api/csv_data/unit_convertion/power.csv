@@ -1,0 +1,4 @@
+unit_name,unit,converter
+watt,W,1
+kilowatt,kW,1000
+calories per hour,kcal/h,1.163

@@ -27,7 +27,8 @@ def test_colebrook_equation(reynold, rel_roughness, expected_dfc):
 
 
 @pytest.mark.parametrize(
-    'reynolds, internal_dimension, roughness, expected_dfc', ((2000, 100, 1.5, 0.032), (20000, 100, 1.5, 0.046))
+    'reynolds, internal_dimension, roughness, expected_dfc',
+    ((2000, 100, 1.5, 0.032), (20000, 100, 1.5, 0.046), (0, 100, 1.5, 0)),
 )
 def test_darcy_friction_coefficient(reynolds, internal_dimension, roughness, expected_dfc):
     assert darcy_friction_coefficient(reynolds, internal_dimension, roughness) == expected_dfc

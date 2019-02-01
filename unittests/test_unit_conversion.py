@@ -21,6 +21,9 @@ from unit_convertion import unit_convertion
         (1, 'gal', 'mm3', 'volume', 3785411.784),
         (1, 'h', 's', 'time', 3600),
         (1, 'm', 's', 'time', 60),
+        (1000, 'W', 'kW', 'power', 1),
+        (1, 'kW', 'W', 'power', 1000),
+        (1, 'kcal/h', 'kW', 'power', 0.001163),
     ),
 )
 def test_unit_convertion(value, unit_from, unit_to, data_type, expected_value):

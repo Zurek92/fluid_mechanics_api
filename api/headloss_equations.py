@@ -40,7 +40,9 @@ def darcy_friction_coefficient(reynolds, internal_dimension, roughness):
     if reynolds > 2100:
         rel_roughness = relative_roughness(roughness, internal_dimension)
         return colebrook_equation(reynolds, rel_roughness)
-    return hagen_poiseuille_equation(reynolds)
+    elif reynolds > 0:
+        return hagen_poiseuille_equation(reynolds)
+    return 0
 
 
 def darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity):

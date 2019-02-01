@@ -1,6 +1,7 @@
 # Fluid Mechanics API
 
 ### Endpoints:
+---
 * GET **/health** <br>
      Check API health, example:
      ```bash
@@ -12,6 +13,7 @@
      {"status": "everything is ok :)"}
      ```
 
+---
 * POST **/calculate/headloss** <br>
     Calculate headloss in pipe, json structure required:
 
@@ -19,10 +21,14 @@
     {
         "fluid": "string",
         "temperature": "integer",
+        "temperature_supply": "integer",
+        "temperature_return": "integer",
         "nominal_diameter": "integer",
         "material": "string",
         "flow": "float",
         "flow_unit": "string",
+        "power": "float",
+        "power_unit": "string",
         "length": "integer",
         "roughness": "float",
         "local_loss_coefficient": "float",
@@ -30,17 +36,21 @@
     }
     ```
     * fluid: available fluids are listed below
-    * temperature: fluid temperature, integer between 0 and 370
+    * temperature: fluid temperature, integer between 0 and 370 (only if flow is send)
+    * temperature_supply: temperature supply, integer between 0 and 370 (only if power is send)
+    * temperature_return: temperature return, integer between 0 and 370 (only if power is send)
     * nominal_diameter: nominal diameter depends on material
     * material: available materials: steel
-    * flow: float, volume flow rate
-    * flow_unit: flow unit e.g.: [m3/h], [m3/s]
+    * flow: float, volume flow rate (requires: flow_unit, temperature)
+    * flow_unit: flow unit e.g.: [m3/h], [m3/s] (only if flow is send)
+    * power: power in heating or cooling installation (requires: temperature_supply, temperature_return, power_unit)
+    * power_unit: power unit e.g.: [W], [kW], [kcal/h] (only if flow is send)
     * length: length of duct or pipe in meters [m]
     * roughness: optional, roughness of pipe in [mm]
     * local_loss_coefficient: optional, by default = 0
     * headloss_unit: optional, output headloss unit, by default = Pa
 
-    Example request json:
+    Example request json, with flow:
     ```json
     {
         "fluid": "water",
@@ -64,7 +74,32 @@
         "headloss_unit": "kPa"
     }
     ```
+    Example request json, with power:
+    ```json
+    {
+        "fluid": "water",
+        "temperature_supply": 80,
+        "temperature_return": 50,
+        "nominal_diameter": 25,
+        "material": "steel",
+        "power": 10,
+        "power_unit": "kW",
+        "length": 10,
+        "roughness": 1,
+        "local_loss_coefficient": 15,
+    }
+    ```
+    Example response json:
+    ```json
+    {
+        "headloss": 363.0,
+        "headloss_unit": "Pa",
+        "velocity": 0.14,
+        "velocity_unit": "m/s"
+    }
+    ```
 
+---
 * POST **/calculate/pipes** <br>
     Calculate headloss in pipe in various dimensions, responds headloss in Pa/m, json structure required:
 
@@ -72,20 +107,28 @@
     {
         "fluid": "string",
         "temperature": "integer",
+        "temperature_supply": "integer",
+        "temperature_return": "integer",
         "material": "string",
         "flow": "float",
         "flow_unit": "string",
+        "power": "float",
+        "power_unit": "string",
         "roughness": "float"
     }
     ```
     * fluid: available fluids are listed below
-    * temperature: fluid temperature, integer between 0 and 370
+    * temperature: fluid temperature, integer between 0 and 370 (only if flow is send)
+    * temperature_supply: temperature supply, integer between 0 and 370 (only if power is send)
+    * temperature_return: temperature return, integer between 0 and 370 (only if power is send)
     * material: available materials are listed below
-    * flow: float, volume flow rate
-    * flow_unit: flow unit e.g.: [m3/h], [m3/s]
+    * flow: float, volume flow rate (requires: flow_unit, temperature)
+    * flow_unit: flow unit e.g.: [m3/h], [m3/s] (only if flow is send)
+    * power: power in heating or cooling installation (requires: temperature_supply, temperature_return, power_unit)
+    * power_unit: power unit e.g.: [W], [kW], [kcal/h] (only if flow is send)
     * roughness: optional, roughness of pipe in [mm]
 
-    Example request json:
+    Example request json, with flow:
     ```json
     {
         "fluid": "water",
@@ -118,7 +161,42 @@
         ]
     }
     ```
+    Example request json, with power:
+    ```json
+    {
+        "fluid": "water",
+        "temperature_supply": 80,
+        "temperature_return": 50,
+        "material": "steel",
+        "roughness": 1,
+        "power": 50,
+        "power_unit": "kW"
+    }
+    ```
+    Example response json:
+    ```json
+    {
+        "headloss_unit": "Pa/m",
+        "velocity_unit": "m/s",
+        "results": [
+            {"headloss": 270966.0, "nominal_diameter": 8, "velocity": 6.68},
+            {"headloss": 38673.0, "nominal_diameter": 10, "velocity": 3.31},
+            {"headloss": 9877.0, "nominal_diameter": 15, "velocity": 2.02},
+            {"headloss": 1930.0, "nominal_diameter": 20, "velocity": 1.11},
+            {"headloss": 548.0, "nominal_diameter": 25, "velocity": 0.7},
+            {"headloss": 120.0, "nominal_diameter": 32, "velocity": 0.4},
+            {"headloss": 55.0, "nominal_diameter": 40, "velocity": 0.3},
+            {"headloss": 14.0, "nominal_diameter": 50, "velocity": 0.18},
+            {"headloss": 4.0, "nominal_diameter": 65, "velocity": 0.11},
+            {"headloss": 2.0, "nominal_diameter": 80, "velocity": 0.08},
+            {"headloss": 0.0, "nominal_diameter": 100, "velocity": 0.05},
+            {"headloss": 0.0, "nominal_diameter": 125, "velocity": 0.03},
+            {"headloss": 0.0, "nominal_diameter": 150, "velocity": 0.02},
+        ],
+    }
+    ```
 
+---
 * POST **/calculate/gravity_flow** <br>
     Calculate gravity flow and velocity with manning equation, json structure required:
 
@@ -156,6 +234,7 @@
     }
     ```
 
+---
 ### Available fluids:
 1. water
 
