@@ -4,3 +4,4 @@ __pycache__
 .pytest_cache
 *.swp
 .coverage
+config_dev.py
