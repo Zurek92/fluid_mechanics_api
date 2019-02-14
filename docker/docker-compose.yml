@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+    api:
+        build:
+            context: ../
+            dockerfile: docker/Dockerfile
+        image: fluid_mechanic_api:develop
+        volumes:
+            - ../:/project
+        ports:
+            - "12000:12000"
+        command: python3 /project/api/main.py
