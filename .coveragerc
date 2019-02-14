@@ -1,2 +1,7 @@
 [run]
 source = api
+omit = api/config/*
+
+[report]
+exclude_lines = 
+    if __name__ == .__main__.:

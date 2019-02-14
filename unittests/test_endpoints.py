@@ -14,6 +14,7 @@ def app_fixture():
 def test_health_endpoint(app_fixture):
     resp = app_fixture.get('/health')
     assert resp.status_code == 200
+    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == {'status': 'everything is ok :)'}
 
 
@@ -118,6 +119,7 @@ def test_health_endpoint(app_fixture):
 )
 def test_headloss_endpoint(app_fixture, req_json, expected_resp):
     resp = app_fixture.post('/calculate/headloss', json=req_json)
+    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == expected_resp
 
 
@@ -166,6 +168,7 @@ def test_headloss_endpoint(app_fixture, req_json, expected_resp):
 )
 def test_headloss_endpoint_failed(app_fixture, req_json, message):
     resp = app_fixture.post('/calculate/headloss', json=req_json)
+    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == {'status': 400, 'message': message}
 
 
@@ -235,6 +238,7 @@ def test_headloss_endpoint_failed(app_fixture, req_json, message):
 )
 def test_selecting_optimum_pipe_size(app_fixture, req_json, expected_resp):
     resp = app_fixture.post('/calculate/pipes', json=req_json)
+    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == expected_resp
 
 
@@ -261,6 +265,7 @@ def test_selecting_optimum_pipe_size(app_fixture, req_json, expected_resp):
 )
 def test_selecting_optimum_pipe_size_failed(app_fixture, req_json):
     resp = app_fixture.post('/calculate/pipes', json=req_json)
+    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == {'status': 400, 'message': 'Missing or invalid JSON request.'}
 
 
@@ -279,6 +284,7 @@ def test_selecting_optimum_pipe_size_failed(app_fixture, req_json):
 )
 def test_gravity_flow(app_fixture, req_json, expected_resp):
     resp = app_fixture.post('/calculate/gravity_flow', json=req_json)
+    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == expected_resp
 
 
@@ -293,10 +299,12 @@ def test_gravity_flow(app_fixture, req_json, expected_resp):
 )
 def test_gravity_flow_failed(app_fixture, req_json):
     resp = app_fixture.post('/calculate/gravity_flow', json=req_json)
+    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == {'status': 400, 'message': 'Missing or invalid JSON request.'}
 
 
 def test_not_found(app_fixture):
     resp = app_fixture.post('/not/existing/path')
     assert resp.status_code == 404
+    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == {'status': 404, 'message': 'not found'}

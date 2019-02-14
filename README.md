@@ -1,5 +1,21 @@
 # Fluid Mechanics API
 
+### Run API in developer mode:
+1. Developer config is required with structure similar to api/config/config_prod.py, example:
+    ```python
+    #!/usr/bin/env python3
+    """Developer config."""
+    class API:
+        IP = "0.0.0.0"
+        PORT = 12000
+        CORS_HEADER = 'http://localhost:13000'
+    ```
+2. Run API (use one of):
+    * With Docker:
+    ```cd docker && docker-compose up```
+    * With virtualenv: ```make venv && make run```
+
+
 ### Endpoints:
 ---
 * GET **/health** <br>
