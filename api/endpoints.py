@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from flask import Blueprint
-from flask import jsonify
 
 from decorators import check_pipe_parameters
 from decorators import get_fluid_parameters
@@ -22,6 +21,8 @@ from hydraulic_surfaces import rectangular_wetted_perimeter
 from json_validation_schemas import headloss_all_pipes
 from json_validation_schemas import headloss_selected_pipe
 from json_validation_schemas import manning_schema
+from miscellaneous_tools import api_response
+from miscellaneous_tools import error_response
 from unit_convertion import unit_convertion
 
 
@@ -31,7 +32,7 @@ api = Blueprint('api', __name__)
 @api.route('/health', methods=['GET'])
 def health():
     """Check api health."""
-    return jsonify({'status': 'everything is ok :)'})
+    return api_response({'status': 'everything is ok :)'})
 
 
 @api.route('/calculate/headloss', methods=['POST'])
@@ -61,7 +62,7 @@ def headloss(req, roughness, internal_dimension):
     loss = darcy_weisbach_equation(
         dfc, llc, length, unit_convertion(internal_dimension, 'mm', 'm', 'lenght'), density, velocity
     )
-    return jsonify(
+    return api_response(
         {
             'velocity': velocity,
             'velocity_unit': 'm/s',
@@ -93,7 +94,7 @@ def selecting_optimum_pipe_size(req):
             dfc, 0, 1, unit_convertion(internal_dimension, 'mm', 'm', 'lenght'), density, velocity
         )
         results.append({'nominal_diameter': nominal_diameter, 'headloss': loss, 'velocity': velocity})
-    return jsonify({'headloss_unit': 'Pa/m', 'velocity_unit': 'm/s', 'results': results})
+    return api_response({'headloss_unit': 'Pa/m', 'velocity_unit': 'm/s', 'results': results})
 
 
 @api.route('/calculate/gravity_flow', methods=['POST'])
@@ -107,7 +108,7 @@ def gravity_flow(req):
     if 'diameter' in req:
         diameter = req['diameter']
         if height > diameter:
-            return jsonify({'status': 400, 'message': 'Missing or invalid JSON request.'})
+            return error_response(400, 'Missing or invalid JSON request.')
         angle = angle_in_partial_filled_pipe(diameter, height)
         area = circular_water_cross_sectional_area(angle, diameter, height)
         perimeter = circular_wetted_perimeter(angle, diameter)
@@ -117,7 +118,7 @@ def gravity_flow(req):
         perimeter = rectangular_wetted_perimeter(width, height)
     hydraulic_radius_value = hydraulic_radius(area, perimeter)
     velocity = manning_equation(hydraulic_radius_value, req['manning_coefficient'], req['slope'])
-    return jsonify(
+    return api_response(
         {
             'velocity': round(velocity, 2),
             'velocity_unit': 'm/s',
@@ -129,4 +130,4 @@ def gravity_flow(req):
 
 @api.app_errorhandler(404)
 def not_found(e):
-    return jsonify({'status': 404, 'message': 'not found'}), 404
+    return error_response(404, 'not found')
