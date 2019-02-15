@@ -4,12 +4,14 @@ import math
 import pytest
 
 
-from headloss_equations import colebrook_equation
-from headloss_equations import darcy_friction_coefficient
-from headloss_equations import darcy_weisbach_equation
-from headloss_equations import hagen_poiseuille_equation
-from headloss_equations import relative_roughness
-from headloss_equations import reynolds_equation
+from calculations.headloss_equations import (
+    colebrook_equation,
+    darcy_friction_coefficient,
+    darcy_weisbach_equation,
+    hagen_poiseuille_equation,
+    relative_roughness,
+    reynolds_equation,
+)
 
 
 @pytest.mark.parametrize(

@@ -1,7 +1,7 @@
 #!/usr/bin.env python3
 import pytest
 
-from unit_convertion import unit_convertion
+from calculations.unit_convertion import unit_convertion
 
 
 @pytest.mark.parametrize(

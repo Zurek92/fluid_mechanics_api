@@ -8,7 +8,7 @@ import csv
 import os
 
 script_dir = os.path.dirname(__file__)
-rel_path = "csv_data/unit_convertion/"
+rel_path = "../csv_data/unit_convertion/"
 
 
 def unit_convertion(value, unit_from, unit_to, data_type):

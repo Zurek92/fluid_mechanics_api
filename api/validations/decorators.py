@@ -4,10 +4,10 @@ from functools import wraps
 import jsonschema
 from flask import request
 
-from fluid_parameters import fluid_params
-from hydraulic_surfaces import get_internal_diameter
-from miscellaneous_tools import error_response
-from unit_convertion import unit_convertion
+from calculations.fluid_parameters import fluid_params
+from calculations.hydraulic_surfaces import get_internal_diameter
+from calculations.unit_convertion import unit_convertion
+from response_tools.response_tools import error_response
 
 
 def json_validate(schema):

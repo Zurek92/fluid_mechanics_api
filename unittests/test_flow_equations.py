@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 import pytest
 
-from flow_equations import manning_equation
-from flow_equations import velocity_equation
+from calculations.flow_equations import manning_equation, velocity_equation
 
 
 @pytest.mark.parametrize(
