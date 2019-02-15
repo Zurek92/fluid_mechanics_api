@@ -3,7 +3,7 @@ import csv
 import os
 
 script_dir = os.path.dirname(__file__)
-rel_path = "csv_data/fluids/"
+rel_path = "../csv_data/fluids/"
 
 
 def interpolate_data(diff, prev_value, current_value):

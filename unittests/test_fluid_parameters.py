@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import pytest
 
-from fluid_parameters import fluid_params
+from calculations.fluid_parameters import fluid_params
 
 
 @pytest.mark.parametrize(

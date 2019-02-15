@@ -2,9 +2,7 @@
 import jsonschema
 import pytest
 
-from json_validation_schemas import headloss_all_pipes
-from json_validation_schemas import headloss_selected_pipe
-from json_validation_schemas import manning_schema
+from validations.json_validation_schemas import headloss_all_pipes, headloss_selected_pipe, manning_schema
 
 
 @pytest.mark.parametrize(

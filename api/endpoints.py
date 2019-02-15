@@ -1,29 +1,22 @@
 #!/usr/bin/env python3
 from flask import Blueprint
 
-from decorators import check_pipe_parameters
-from decorators import get_fluid_parameters
-from decorators import json_validate
-from decorators import power_to_flow
-from flow_equations import manning_equation
-from flow_equations import velocity_equation
-from headloss_equations import darcy_friction_coefficient
-from headloss_equations import darcy_weisbach_equation
-from headloss_equations import reynolds_equation
-from hydraulic_surfaces import angle_in_partial_filled_pipe
-from hydraulic_surfaces import circular_pipe
-from hydraulic_surfaces import circular_water_cross_sectional_area
-from hydraulic_surfaces import circular_wetted_perimeter
-from hydraulic_surfaces import get_internal_diameters
-from hydraulic_surfaces import hydraulic_radius
-from hydraulic_surfaces import rectangular_dict
-from hydraulic_surfaces import rectangular_wetted_perimeter
-from json_validation_schemas import headloss_all_pipes
-from json_validation_schemas import headloss_selected_pipe
-from json_validation_schemas import manning_schema
-from miscellaneous_tools import api_response
-from miscellaneous_tools import error_response
-from unit_convertion import unit_convertion
+from calculations.flow_equations import manning_equation, velocity_equation
+from calculations.headloss_equations import darcy_friction_coefficient, darcy_weisbach_equation, reynolds_equation
+from calculations.hydraulic_surfaces import (
+    angle_in_partial_filled_pipe,
+    circular_pipe,
+    circular_water_cross_sectional_area,
+    circular_wetted_perimeter,
+    get_internal_diameters,
+    hydraulic_radius,
+    rectangular_dict,
+    rectangular_wetted_perimeter,
+)
+from calculations.unit_convertion import unit_convertion
+from response_tools.response_tools import api_response, error_response
+from validations.decorators import check_pipe_parameters, get_fluid_parameters, json_validate, power_to_flow
+from validations.json_validation_schemas import headloss_all_pipes, headloss_selected_pipe, manning_schema
 
 
 api = Blueprint('api', __name__)

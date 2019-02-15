@@ -4,10 +4,10 @@ import csv
 import math
 import os
 
-from unit_convertion import unit_convertion
+from calculations.unit_convertion import unit_convertion
 
 script_dir = os.path.dirname(__file__)
-rel_path = "csv_data/pipes/"
+rel_path = "../csv_data/pipes/"
 
 
 def circular_pipe(diameter, unit):

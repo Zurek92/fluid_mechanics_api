@@ -3,14 +3,16 @@ import math
 
 import pytest
 
-from hydraulic_surfaces import angle_in_partial_filled_pipe
-from hydraulic_surfaces import circular_pipe
-from hydraulic_surfaces import circular_water_cross_sectional_area
-from hydraulic_surfaces import circular_wetted_perimeter
-from hydraulic_surfaces import get_internal_diameter
-from hydraulic_surfaces import hydraulic_radius
-from hydraulic_surfaces import rectangular_dict
-from hydraulic_surfaces import rectangular_wetted_perimeter
+from calculations.hydraulic_surfaces import (
+    angle_in_partial_filled_pipe,
+    circular_pipe,
+    circular_water_cross_sectional_area,
+    circular_wetted_perimeter,
+    get_internal_diameter,
+    hydraulic_radius,
+    rectangular_dict,
+    rectangular_wetted_perimeter,
+)
 
 
 @pytest.mark.parametrize(

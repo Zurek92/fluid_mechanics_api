@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import math
 
-from unit_convertion import unit_convertion
+from calculations.unit_convertion import unit_convertion
 
 
 def manning_equation(hydraulic_radius, manning_coefficient, slope):
