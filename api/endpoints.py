@@ -101,7 +101,7 @@ def gravity_flow(req):
     if 'diameter' in req:
         diameter = req['diameter']
         if height > diameter:
-            return error_response(400, 'Missing or invalid JSON request.')
+            return error_response(400, 'Height couldn\'t be higher than diameter.')
         angle = angle_in_partial_filled_pipe(diameter, height)
         area = circular_water_cross_sectional_area(angle, diameter, height)
         perimeter = circular_wetted_perimeter(angle, diameter)
@@ -124,3 +124,8 @@ def gravity_flow(req):
 @api.app_errorhandler(404)
 def not_found(e):
     return error_response(404, 'not found')
+
+
+@api.app_errorhandler(405)
+def wrong_method(e):
+    return error_response(405, 'wrong method')

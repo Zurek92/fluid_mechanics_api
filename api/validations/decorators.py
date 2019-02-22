@@ -18,8 +18,8 @@ def json_validate(schema):
                 req = request.get_json()
                 jsonschema.validate(req, schema)
                 return func(*args, req=req, **kwargs)
-            except jsonschema.exceptions.ValidationError:
-                return error_response(400, 'Missing or invalid JSON request.')
+            except jsonschema.exceptions.ValidationError as exc:
+                return error_response(400, exc.message)
 
         return wrapper
 
