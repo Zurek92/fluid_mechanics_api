@@ -8,7 +8,7 @@
     class API:
         IP = "0.0.0.0"
         PORT = 12000
-        CORS_HEADER = 'http://localhost:13000'
+        CORS_ORIGIN = 'http://localhost:13000'
     ```
 2. Run API (use one of):
     * With Docker:
