@@ -119,57 +119,46 @@ def test_health_endpoint(app_fixture):
 )
 def test_headloss_endpoint(app_fixture, req_json, expected_resp):
     resp = app_fixture.post('/calculate/headloss', json=req_json)
-    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == expected_resp
 
 
 @pytest.mark.parametrize(
-    'req_json, message',
+    'req_json',
     (
-        (None, 'Missing or invalid JSON request.'),
-        (
-            {
-                'fluid': 'water',
-                'temperature': 30,
-                'nominal_diameter': 25,
-                'material': 'steel',
-                'flow': 10,
-                'flow_unit': 'm3/h',
-                'length': -1,
-            },
-            'Missing or invalid JSON request.',
-        ),
-        (
-            {
-                'fluid': 'water',
-                'temperature': 30,
-                'nominal_diameter': 25,
-                'roughness': 20,
-                'material': 'steel',
-                'flow': 10,
-                'flow_unit': 'm3/h',
-                'length': 1,
-            },
-            'Wrong roughness value.',
-        ),
-        (
-            {
-                'fluid': 'water',
-                'temperature': 30,
-                'nominal_diameter': 24,
-                'material': 'steel',
-                'flow': 10,
-                'flow_unit': 'm3/h',
-                'length': 1,
-            },
-            'Wrong pipe diameter value.',
-        ),
+        None,
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'material': 'steel',
+            'flow': 10,
+            'flow_unit': 'm3/h',
+            'length': -1,
+        },
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 25,
+            'roughness': 20,
+            'material': 'steel',
+            'flow': 10,
+            'flow_unit': 'm3/h',
+            'length': 1,
+        },
+        {
+            'fluid': 'water',
+            'temperature': 30,
+            'nominal_diameter': 24,
+            'material': 'steel',
+            'flow': 10,
+            'flow_unit': 'm3/h',
+            'length': 1,
+        },
     ),
 )
-def test_headloss_endpoint_failed(app_fixture, req_json, message):
+def test_headloss_endpoint_failed(app_fixture, req_json):
     resp = app_fixture.post('/calculate/headloss', json=req_json)
-    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
-    assert resp.get_json() == {'status': 400, 'message': message}
+    assert resp.status_code == 400
 
 
 @pytest.mark.parametrize(
@@ -238,7 +227,6 @@ def test_headloss_endpoint_failed(app_fixture, req_json, message):
 )
 def test_selecting_optimum_pipe_size(app_fixture, req_json, expected_resp):
     resp = app_fixture.post('/calculate/pipes', json=req_json)
-    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == expected_resp
 
 
@@ -265,8 +253,7 @@ def test_selecting_optimum_pipe_size(app_fixture, req_json, expected_resp):
 )
 def test_selecting_optimum_pipe_size_failed(app_fixture, req_json):
     resp = app_fixture.post('/calculate/pipes', json=req_json)
-    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
-    assert resp.get_json() == {'status': 400, 'message': 'Missing or invalid JSON request.'}
+    assert resp.status_code == 400
 
 
 @pytest.mark.parametrize(
@@ -284,7 +271,6 @@ def test_selecting_optimum_pipe_size_failed(app_fixture, req_json):
 )
 def test_gravity_flow(app_fixture, req_json, expected_resp):
     resp = app_fixture.post('/calculate/gravity_flow', json=req_json)
-    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == expected_resp
 
 
@@ -299,22 +285,15 @@ def test_gravity_flow(app_fixture, req_json, expected_resp):
 )
 def test_gravity_flow_failed(app_fixture, req_json):
     resp = app_fixture.post('/calculate/gravity_flow', json=req_json)
-    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
-    assert resp.get_json() == {'status': 400, 'message': 'Missing or invalid JSON request.'}
+    assert resp.status_code == 400
 
 
 def test_not_found(app_fixture):
     resp = app_fixture.post('/not/existing/path')
     assert resp.status_code == 404
-    assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
-    assert resp.get_json() == {'status': 404, 'message': 'not found'}
 
 
-@pytest.mark.parametrize('path', (
-    '/calculate/headloss',
-    '/calculate/pipes',
-    '/calculate/gravity_flow',
-    ))
+@pytest.mark.parametrize('path', ('/calculate/headloss', '/calculate/pipes', '/calculate/gravity_flow'))
 def test_wrong_method(app_fixture, path):
     resp = app_fixture.get(path)
     assert resp.status_code == 405
