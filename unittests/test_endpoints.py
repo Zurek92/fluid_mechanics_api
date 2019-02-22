@@ -308,3 +308,13 @@ def test_not_found(app_fixture):
     assert resp.status_code == 404
     assert resp.headers.get('Access-Control-Allow-Origin') == 'http://localhost:13000'
     assert resp.get_json() == {'status': 404, 'message': 'not found'}
+
+
+@pytest.mark.parametrize('path', (
+    '/calculate/headloss',
+    '/calculate/pipes',
+    '/calculate/gravity_flow',
+    ))
+def test_wrong_method(app_fixture, path):
+    resp = app_fixture.get(path)
+    assert resp.status_code == 405

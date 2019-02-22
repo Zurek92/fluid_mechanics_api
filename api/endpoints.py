@@ -124,3 +124,8 @@ def gravity_flow(req):
 @api.app_errorhandler(404)
 def not_found(e):
     return error_response(404, 'not found')
+
+
+@api.app_errorhandler(405)
+def wrong_method(e):
+    return error_response(405, 'wrong method')
