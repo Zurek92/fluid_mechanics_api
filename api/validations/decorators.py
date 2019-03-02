@@ -64,6 +64,8 @@ def power_to_flow(func):
         if 'power' in req:
             power = unit_convertion(req['power'], req['power_unit'], 'W', 'power')
             temperature_delta = abs(req['temperature_supply'] - req['temperature_return'])
+            if not temperature_delta:
+                return error_response(400, 'Temperature supply and return can not have the same value.')
             flow = power / (temperature_delta * req['density'] * req['specific_heat'])
             req.update({'flow': flow, 'flow_unit': 'm3/s'})
         return func(*args, req=req, **kwargs)

@@ -154,6 +154,17 @@ def test_headloss_endpoint(app_fixture, req_json, expected_resp):
             'flow_unit': 'm3/h',
             'length': 1,
         },
+        {
+            'fluid': 'water',
+            'temperature_supply': 70,
+            'temperature_return': 70,
+            'nominal_diameter': 50,
+            'material': 'steel',
+            'power': 81,
+            'power_unit': 'kW',
+            'length': 10,
+            'headloss_unit': 'kPa',
+        },
     ),
 )
 def test_headloss_endpoint_failed(app_fixture, req_json):
