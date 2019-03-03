@@ -1,7 +1,15 @@
 #!/usr/bin.env python3
 import pytest
 
-from calculations.unit_convertion import unit_convertion
+from calculations.unit_convertion import round_units, unit_convertion
+
+
+@pytest.mark.parametrize(
+    'number, significant, expected_value',
+    ((1234, 2, 1200), (1234.56, 5, 1234.6), (0.000123456, 2, 0.00012), (0, 10, 0)),
+)
+def test_round_units(number, significant, expected_value):
+    assert round_units(number, significant) == expected_value
 
 
 @pytest.mark.parametrize(
