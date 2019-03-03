@@ -60,7 +60,7 @@ def unit_convertion(value, unit_from, unit_to, data_type):
                 converter_to = float(row['converter'])
                 required_matches += 2
             if required_matches == 3:
-                return value * converter_from / converter_to
+                return round_units(value * converter_from / converter_to, 5)
         return unit_not_found_message(required_matches, unit_from, unit_to)
 
 

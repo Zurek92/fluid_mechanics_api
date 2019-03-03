@@ -14,7 +14,7 @@ def test_manning_equation(hydraulic_radius, manning_coefficient, slope, expected
 
 @pytest.mark.parametrize(
     'flow, flow_unit, area, expected_velocity',
-    ((10, 'm3/h', 0.00278, 1), (0.01, 'm3/s', 0.1, 0.1), (-0.01, 'm3/s', 0.1, -0.1)),
+    ((10, 'm3/h', 0.002777, 1), (0.01, 'm3/s', 0.1, 0.1), (-0.01, 'm3/s', 0.1, -0.1)),
 )
 def test_velocity_equation(flow, flow_unit, area, expected_velocity):
     assert velocity_equation(flow, flow_unit, area) == expected_velocity

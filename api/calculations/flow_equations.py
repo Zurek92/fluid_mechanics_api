@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import math
 
-from calculations.unit_convertion import unit_convertion
+from calculations.unit_convertion import round_units, unit_convertion
 
 
 def manning_equation(hydraulic_radius, manning_coefficient, slope):
@@ -24,6 +24,6 @@ def velocity_equation(flow, flow_unit, area):
         volume_unit, time_unit = flow_unit.split('/')
         volume_convertion = unit_convertion(1, volume_unit, 'm3', 'volume')
         time_convertion = unit_convertion(1, time_unit, 's', 'time')
-        return round((flow * volume_convertion / time_convertion) / area, 2)
+        return round_units((flow * volume_convertion / time_convertion) / area, 3)
     except (ValueError, TypeError):
         return 'Wrong volume flow rate!'
