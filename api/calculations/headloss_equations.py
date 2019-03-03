@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import math
 
+from calculations.unit_convertion import round_units
+
 
 def colebrook_equation(reynold, rel_roughness):
     """Returns darcy friction coefficient (dfc) for turbulent flow.
@@ -56,7 +58,7 @@ def darcy_weisbach_equation(dfc, llc, length, diameter, density, velocity):
     :param density: density of fluid [kg/m3]
     :param velocity: average velocity of fluid [m/s]
     """
-    return round((llc + dfc * length / diameter) * density * math.pow(velocity, 2) / 2, 0)
+    return round_units((llc + dfc * length / diameter) * density * math.pow(velocity, 2) / 2, 5)
 
 
 def hagen_poiseuille_equation(reynold):

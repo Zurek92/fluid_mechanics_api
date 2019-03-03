@@ -84,10 +84,10 @@
     Example response json:
     ```json
     {
-        "velocity": 0.48,
-        "velocity_unit": "m/s",
-        "headloss": 4.335,
-        "headloss_unit": "kPa"
+      "headloss": 4.2991,
+      "headloss_unit": "kPa",
+      "velocity": 0.478,
+      "velocity_unit": "m/s"
     }
     ```
     Example request json, with power:
@@ -102,16 +102,16 @@
         "power_unit": "kW",
         "length": 10,
         "roughness": 1,
-        "local_loss_coefficient": 15,
+        "local_loss_coefficient": 15
     }
     ```
     Example response json:
     ```json
     {
-        "headloss": 363.0,
-        "headloss_unit": "Pa",
-        "velocity": 0.14,
-        "velocity_unit": "m/s"
+      "headloss": 363.16,
+      "headloss_unit": "Pa",
+      "velocity": 0.14,
+      "velocity_unit": "m/s"
     }
     ```
 
@@ -159,22 +159,22 @@
     ```json
     {
         "headloss_unit": "Pa/m",
-        "velocity_unit": "m/s",
         "results": [
-            {"nominal_diameter": 8, "headloss": 16561320, "velocity": 45.67},
-            {"nominal_diameter": 10, "headloss": 2312644, "velocity": 22.64},
-            {"nominal_diameter": 15, "headloss": 583861, "velocity": 13.82},
-            {"nominal_diameter": 20, "headloss": 111520, "velocity": 7.58},
-            {"nominal_diameter": 25, "headloss": 31444, "velocity": 4.78},
-            {"nominal_diameter": 32, "headloss": 6889, "velocity": 2.74},
-            {"nominal_diameter": 40, "headloss": 3021, "velocity": 2.02},
-            {"nominal_diameter": 50, "headloss": 837, "velocity": 1.26},
-            {"nominal_diameter": 65, "headloss": 204, "velocity": 0.75},
-            {"nominal_diameter": 80, "headloss": 85, "velocity": 0.54},
-            {"nominal_diameter": 100, "headloss": 21, "velocity": 0.32},
-            {"nominal_diameter": 125, "headloss": 7, "velocity": 0.21},
-            {"nominal_diameter": 150, "headloss": 3, "velocity": 0.15}
-        ]
+            {"headloss": 16583000, "nominal_diameter": 8, "velocity": 45.7},
+            {"headloss": 2304500, "nominal_diameter": 10, "velocity": 22.6},
+            {"headloss": 582170, "nominal_diameter": 15, "velocity": 13.8},
+            {"headloss": 111520, "nominal_diameter": 20, "velocity": 7.58},
+            {"headloss": 31444, "nominal_diameter": 25, "velocity": 4.78},
+            {"headloss": 6888.7, "nominal_diameter": 32, "velocity": 2.74},
+            {"headloss": 3020.7, "nominal_diameter": 40, "velocity": 2.02},
+            {"headloss": 837.22, "nominal_diameter": 50, "velocity": 1.26},
+            {"headloss": 202.4, "nominal_diameter": 65, "velocity": 0.747},
+            {"headloss": 85.285, "nominal_diameter": 80, "velocity": 0.542},
+            {"headloss": 20.74, "nominal_diameter": 100, "velocity": 0.319},
+            {"headloss": 6.7081, "nominal_diameter": 125, "velocity": 0.209},
+            {"headloss": 2.5331, "nominal_diameter": 150, "velocity": 0.146},
+        ],
+        "velocity_unit": "m/s",
     }
     ```
     Example request json, with power:
@@ -193,22 +193,22 @@
     ```json
     {
         "headloss_unit": "Pa/m",
-        "velocity_unit": "m/s",
         "results": [
-            {"headloss": 270966.0, "nominal_diameter": 8, "velocity": 6.68},
-            {"headloss": 38673.0, "nominal_diameter": 10, "velocity": 3.31},
-            {"headloss": 9877.0, "nominal_diameter": 15, "velocity": 2.02},
-            {"headloss": 1930.0, "nominal_diameter": 20, "velocity": 1.11},
-            {"headloss": 548.0, "nominal_diameter": 25, "velocity": 0.7},
-            {"headloss": 120.0, "nominal_diameter": 32, "velocity": 0.4},
-            {"headloss": 55.0, "nominal_diameter": 40, "velocity": 0.3},
-            {"headloss": 14.0, "nominal_diameter": 50, "velocity": 0.18},
-            {"headloss": 4.0, "nominal_diameter": 65, "velocity": 0.11},
-            {"headloss": 2.0, "nominal_diameter": 80, "velocity": 0.08},
-            {"headloss": 0.0, "nominal_diameter": 100, "velocity": 0.05},
-            {"headloss": 0.0, "nominal_diameter": 125, "velocity": 0.03},
-            {"headloss": 0.0, "nominal_diameter": 150, "velocity": 0.02},
+            {"headloss": 270970, "nominal_diameter": 8, "velocity": 6.68},
+            {"headloss": 38673, "nominal_diameter": 10, "velocity": 3.31},
+            {"headloss": 9877.1, "nominal_diameter": 15, "velocity": 2.02},
+            {"headloss": 1929.6, "nominal_diameter": 20, "velocity": 1.11},
+            {"headloss": 546.0, "nominal_diameter": 25, "velocity": 0.699},
+            {"headloss": 120.77, "nominal_diameter": 32, "velocity": 0.401},
+            {"headloss": 53.435, "nominal_diameter": 40, "velocity": 0.296},
+            {"headloss": 15.032, "nominal_diameter": 50, "velocity": 0.184},
+            {"headloss": 3.6404, "nominal_diameter": 65, "velocity": 0.109},
+            {"headloss": 1.5644, "nominal_diameter": 80, "velocity": 0.0793},
+            {"headloss": 0.37569, "nominal_diameter": 100, "velocity": 0.0467},
+            {"headloss": 0.12359, "nominal_diameter": 125, "velocity": 0.0306},
+            {"headloss": 0.047677, "nominal_diameter": 150, "velocity": 0.0214},
         ],
+        "velocity_unit": "m/s",
     }
     ```
 
